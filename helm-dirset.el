@@ -21,7 +21,7 @@
 ;; Author: k1LoW (Kenichirou Oyama), <k1lowxb [at] gmail [dot] com> <k1low [at] 101000lab [dot] org>
 ;; Keywords: files, directories
 ;; URL: http://101000lab.org
-;; Package-Requires: ((f "0.16.2") (helm "1.6.1"))
+;; Package-Requires: ((f "0.16.2") (helm "1.6.1") (s "1.9.0"))
 
 ;;; Commentary:
 
