@@ -21,13 +21,14 @@
 ;; Author: k1LoW (Kenichirou Oyama), <k1lowxb [at] gmail [dot] com> <k1low [at] 101000lab [dot] org>
 ;; Keywords: files, directories
 ;; URL: http://101000lab.org
-;; Package-Requires: ((f "0.16.2") (helm "1.6.1") (s "1.9.0"))
+;; Package-Requires: ((f "0.16.2") (helm "1.6.1") (s "1.9.0") (cl-lib "0.5"))
 
 ;;; Commentary:
 
 ;;; Code:
 
 ;;require
+(require 'cl-lib)
 (require 'f)
 (require 's)
 (require 'helm-config)
@@ -44,15 +45,15 @@
       (setq absolute-dir-list (list absolute-dir-list)))
     (unless actions
       (setq actions helm-dirset-default-action))
-    (loop for d in absolute-dir-list do
-          (unless (not (f-dir? d))
-            (push
-             `((name . ,(concat "Open directory: " d))
-               (candidates . ,(remove-if (lambda (x) (and ignore (s-matches? ignore x))) (helm-dirset-sources-directory-files d recursive)))
-               (display-to-real . (lambda (candidate)
-                                    (f-join ,d candidate)))
-                ,actions)
-             sources)))
+    (cl-loop for d in absolute-dir-list do
+             (unless (not (f-dir? d))
+               (push
+                `((name . ,(concat "Open directory: " d))
+                  (candidates . ,(cl-remove-if (lambda (x) (and ignore (s-matches? ignore x))) (helm-dirset-sources-directory-files d recursive)))
+                  (display-to-real . (lambda (candidate)
+                                       (f-join ,d candidate)))
+                  ,actions)
+                sources)))
     (reverse sources)))
 
 (defun helm-dirset-sources-directory-files (dir &optional recursive)
